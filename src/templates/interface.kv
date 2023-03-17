@@ -1,0 +1,70 @@
+BoxLayout:
+    orientation: 'vertical'
+    padding: 50
+    spacing: 20
+
+    canvas:
+        Color:
+            rgba: 0.5, 0.5, 0.5, 0.5
+        Rectangle: #woohoo!!!
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        Image:
+            source: 'assets/logo.png'
+
+        Label:
+            text: 'Beethoven'
+
+    BoxLayout:
+        orientation: 'horizontal'
+        spacing: 20
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'Beenstrument'
+                text_size: self.size
+                halign: 'left'
+                valign: 'middle'
+                font_size: 16
+                size_hint_y: 0.3
+                
+            TextInput:
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'BPM (bees/minute)'
+                text_size: self.size
+                halign: 'left'
+                valign: 'middle'
+                font_size: 16
+                size_hint_y: 0.3
+                
+            TextInput:
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            text: 'Beenput'
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+            font_size: 16
+            size_hint_y: 0.3
+            
+        TextInput:
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        Button:
+            text: 'Beenarate'
+            background_color: 1, 0, 0, 1
