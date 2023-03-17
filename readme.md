@@ -1,0 +1,5 @@
+## Dependencies
+
+- gensound
+- simpleaudio
+- kivy
