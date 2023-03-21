@@ -1,23 +1,31 @@
+#:import utils kivy.utils
+
 BoxLayout:
     orientation: 'vertical'
-    padding: 50
+    padding: 30
     spacing: 20
 
     canvas:
         Color:
-            rgba: 0.5, 0.5, 0.5, 0.5
-        Rectangle: #woohoo!!!
+            rgb: utils.get_color_from_hex('#282828')
+        Rectangle:
             size: self.size
             pos: self.pos
 
     BoxLayout:
         orientation: 'horizontal'
+        size_hint_y: 0.3
+        horizontal_align: 'left'
 
         Image:
+            size_hint_x: 0.0
             source: 'assets/logo.png'
 
         Label:
-            text: 'Beethoven'
+            size_hint_x: 0.0
+            text: '                Beethoven'
+            font_name: "Inter-Bold"
+            font_size: 48
 
     BoxLayout:
         orientation: 'horizontal'
@@ -30,11 +38,15 @@ BoxLayout:
                 text: 'Beenstrument'
                 text_size: self.size
                 halign: 'left'
+                font_name: "Inter-Regular"
                 valign: 'middle'
                 font_size: 16
                 size_hint_y: 0.3
                 
             TextInput:
+                background_color: utils.get_color_from_hex('#4D4D4D')
+                background_normal: ''
+                multiline: False
 
         BoxLayout:
             orientation: 'vertical'
@@ -44,10 +56,14 @@ BoxLayout:
                 text_size: self.size
                 halign: 'left'
                 valign: 'middle'
+                font_name: "Inter-Regular"
                 font_size: 16
                 size_hint_y: 0.3
                 
             TextInput:
+                background_color: utils.get_color_from_hex('#4D4D4D')
+                background_normal: ''
+                multiline: False
 
     BoxLayout:
         orientation: 'vertical'
@@ -58,13 +74,22 @@ BoxLayout:
             halign: 'left'
             valign: 'middle'
             font_size: 16
+            font_name: "Inter-Regular"
             size_hint_y: 0.3
             
         TextInput:
+            background_color: utils.get_color_from_hex('#4D4D4D')
+            background_normal: ''
 
     BoxLayout:
         orientation: 'horizontal'
+        size_hint_y: 0.5
 
         Button:
             text: 'Beenarate'
-            background_color: 1, 0, 0, 1
+            background_normal: ''
+            background_color: rgba("#D49C2D")
+            font_size: 20
+            font_name: "Inter-Medium"
+            color: 0, 0, 0, 1
+            on_press: app.say_hello()
