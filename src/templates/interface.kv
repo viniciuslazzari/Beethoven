@@ -43,10 +43,12 @@ BoxLayout:
                 font_size: 16
                 size_hint_y: 0.3
                 
-            TextInput:
+            Spinner:
+                text: 'Sine'
+                values: ('Sine', 'Triangle', 'Square')
                 background_color: utils.get_color_from_hex('#4D4D4D')
                 background_normal: ''
-                multiline: False
+                id: instrument
 
         BoxLayout:
             orientation: 'vertical'
@@ -64,9 +66,12 @@ BoxLayout:
                 background_color: utils.get_color_from_hex('#4D4D4D')
                 background_normal: ''
                 multiline: False
+                foreground_color: utils.get_color_from_hex('#FFFFFF')
+                id: bpm
 
     BoxLayout:
-        orientation: 'vertical'
+        orientation: 'horizontal'
+        size_hint_y: 0.3
 
         Label:
             text: 'Beenput'
@@ -75,11 +80,19 @@ BoxLayout:
             valign: 'middle'
             font_size: 16
             font_name: "Inter-Regular"
-            size_hint_y: 0.3
-            
+
+    BoxLayout:
+        orientation: 'horizontal'
+        spacing: 20
+                
         TextInput:
             background_color: utils.get_color_from_hex('#4D4D4D')
             background_normal: ''
+            foreground_color: utils.get_color_from_hex('#FFFFFF')
+            id: text
+
+        FileChooserIconView:
+            id: file
 
     BoxLayout:
         orientation: 'horizontal'
