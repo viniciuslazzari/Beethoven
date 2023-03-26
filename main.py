@@ -1,5 +1,7 @@
+import pygame.midi
 from kivy.app import App
 from src.templates.interface import Interface
+from src.player import Player
 
 class Beethoven():
     def main(self):
