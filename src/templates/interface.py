@@ -1,4 +1,5 @@
 from kivy.app import App
+from ..player import Player
 
 possible_instruments = ['Sine', 'Triangle', 'Square']
 
@@ -47,6 +48,7 @@ class Interface(App):
     def get_file(self):
         self.__file_input = self.root.ids.file.selection[0] if len(self.root.ids.file.selection) == 1 else ''
  
+
     def generate(self):
         self.get_instrument()
         self.get_bpm()
@@ -56,3 +58,15 @@ class Interface(App):
         self.set_loading(True)
 
         print(self.__instrument_input, self.__bpm_input, self.__text_input, self.__file_input)
+        
+        teste = Player()
+
+        bpm = int(self.__bpm_input)
+
+        volume = 127
+
+        octave = 4
+
+        instrument = 0
+
+        teste.play_note(self.__text_input, instrument, octave, volume, bpm, "output/output.mid")
