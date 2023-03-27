@@ -1,3 +1,4 @@
+import pygame.midi
 from kivy.app import App
 from ..player import Player
 
@@ -59,6 +60,7 @@ class Interface(App):
 
         print(self.__instrument_input, self.__bpm_input, self.__text_input, self.__file_input)
         
+
         teste = Player()
 
         bpm = int(self.__bpm_input)
@@ -69,4 +71,7 @@ class Interface(App):
 
         instrument = 0
 
+
         teste.play_note(self.__text_input, instrument, octave, volume, bpm, "output/output.mid")
+        teste.play_note(self.__text_input, instrument, octave, volume, bpm)
+

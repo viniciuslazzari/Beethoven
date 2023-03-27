@@ -1,7 +1,6 @@
-import pygame.midi #importada mesemo sem ser usada para ter o SDL correto
+import pygame.midi #importada mesmo sem ser usada para ter o SDL correto
+from kivy.app import App
 from src.templates.interface import Interface
-
-
 
 class Beethoven():
     def main(self):
