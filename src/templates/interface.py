@@ -55,8 +55,6 @@ class Interface(App):
 
         self.set_loading(True)
 
-        print(self.instrument_input, self.bpm_input, self.text_input, self.file_input)
-
         file_text = ''
 
         if (self.file_input != ''):
@@ -69,3 +67,4 @@ class Interface(App):
 
         composer.compose()
 
+        self.set_loading(False)
