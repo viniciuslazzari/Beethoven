@@ -47,7 +47,7 @@ class Composer:
         midi_file.addTempo(self.track, self.time, self.bpm)
 
         for note in self.text:
-            final_note = self.player.play_note(note, self.instrument, self.octave, self.volume, escala, midi_file, output)
+            final_note = self.player.play_note(note, self.bpm, self.instrument, self.octave, self.volume, escala, midi_file, output)
 
             midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, self.volume)
 

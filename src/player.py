@@ -9,7 +9,7 @@ class Player:
     def note_exists(self, note):
         return note in self.notes
 
-    def play_note(self, note, instrument, octave, volume, escala, midi_file, output):
+    def play_note(self, note, bpm, instrument, octave, volume, escala, output):
         print(note)
 
         if not self.note_exists(note):
