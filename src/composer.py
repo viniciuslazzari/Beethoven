@@ -3,6 +3,11 @@ import pygame
 from midiutil import MIDIFile
 from src.player import Player
 
+harpa = ["I", "i", "O", "o", "U", "u"]
+repete = ["a", "b", "c", "d", "e", "f", "g"]
+digit = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
 class Composer:
     def __init__(self, text, bpm, instrument):
         self.text = text
@@ -34,6 +39,9 @@ class Composer:
     def get_octave(self):
         return self.octave
 
+    def note_exists(self, note):
+        return note in notes
+
     def compose(self):
         pygame.midi.init()
         output = pygame.midi.Output(0)
@@ -44,10 +52,40 @@ class Composer:
 
         midi_file.addTempo(self.track, self.time, self.bpm)
 
-        for note in self.text:
-            final_note = self.player.play_note(note, self.bpm, self.instrument, self.octave, self.volume, escala, output)
+        nota_atual = ''
 
-            midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, self.volume)
+        for note in self.text:
+            volume_atual = self.volume
+            final_note = 0
+
+            # Dobra o volume e continua o loop
+            if note == " ":
+                self.double_volume()
+                continue
+            
+            # Aumenta a oitava e continua o loop
+            if note == "?" or note == ".":
+                self.increase_octave()
+                continue
+
+            # Troca o instrumento sem tocar nada e continua o loop
+            if note == "!" or note in harpa or note == "\n" or note == ";" or note == ",":
+                self.player.play_instrument(note, self.instrument, output)
+
+                time.sleep(60 / self.bpm)
+                self.time += 1
+
+                continue
+
+            # Se a nota atual existir, toca ela
+            if self.note_exists(note):
+                final_note = self.player.play_note(note, self.bpm, self.instrument, self.octave, volume_atual, escala, output)
+            # Senão, repete a ultima nota
+            else:
+                final_note = self.player.repeat_note(self.instrument, self.octave, volume_atual, escala, output)
+            
+            time.sleep(60 / self.bpm)
+            midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, volume_atual)
 
             self.time += 1
 
@@ -66,12 +104,6 @@ class Composer:
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
             pygame.time.wait(100)
-
-    def generate_random_bpm(self):
-        self.bpm = random.randint(60, 180)
-
-    def increase_bpm(self):
-        self.bpm += 10
 
     def double_volume(self):
         self.volume *= 2
