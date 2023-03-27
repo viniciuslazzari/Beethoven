@@ -5,8 +5,6 @@ from src.player import Player
 import time
 
 harpa = ["I", "i", "O", "o", "U", "u"]
-repete = ["a", "b", "c", "d", "e", "f", "g"]
-digit = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
 class Composer:
@@ -117,15 +115,12 @@ class Composer:
 
     def double_volume(self):
         self.volume *= 2
+
         if self.volume > 127:
-            self.volume = 50
+            self.reset_volume()
 
     def reset_volume(self):
         self.volume = 50
 
     def increase_octave(self):
         self.octave += 1
-
-    def get_random_note(self):
-        notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-        return random.choice(notes) + str(self.octave)

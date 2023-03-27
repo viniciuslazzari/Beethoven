@@ -1,13 +1,14 @@
+notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+harpas = ["I", "i", "O", "o", "U", "u"]
+
 class Player:
     def __init__(self):
-        self.notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-        self.harpa = ["I", "i", "O", "o", "U", "u"]
         self.nota_atual = 'A#'
 
     def get_instrument(self, note, instrument):
         if note == "!":
             return 113
-        elif note in self.harpa:
+        elif note in harpas:
             return 6
         elif note == "\n":
             return 14
@@ -28,11 +29,10 @@ class Player:
 
         return new_instrument
 
-
     def repeat_note(self, instrument, octave, volume, escala, output):
         final_note = 10
         if self.nota_atual != "A#":
-            final_note = (octave * escala) + (self.notes.index(self.nota_atual))
+            final_note = (octave * escala) + (notes.index(self.nota_atual))
             self.nota_atual = "A#"
 
             output.set_instrument(instrument)
@@ -41,7 +41,7 @@ class Player:
         return final_note
 
     def play_note(self, note, instrument, octave, volume, escala, output):
-        final_note = (octave * escala) + (self.notes.index(note))
+        final_note = (octave * escala) + (notes.index(note))
         self.nota_atual = note
         
         output.set_instrument(instrument)
