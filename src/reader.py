@@ -1,16 +1,16 @@
 class Reader:
     def __init__(self, file):
-        self.file = file
+        self.__file = file
 
     def __file_is_txt(self):
-        return self.file.endswith('.txt')
+        return self.__file.endswith('.txt')
 
     def read_file(self):
-        if (not self.file_is_txt()):
+        if (not self.__file_is_txt()):
             print('Error opening file!')
             return ''
 
-        fl = open(self.file, 'r')
+        fl = open(self.__file, 'r')
 
         text = fl.read()
 

@@ -3,19 +3,19 @@ from ..composer import Composer
 from ..reader import Reader
 
 class Interface(App):
-    is_loading = False
-    instrument_input = 0
-    bpm_input = 0
-    text_input = ''
-    file_input = ''
+    __is_loading = False
+    __instrument_input = 0
+    __bpm_input = 0
+    __text_input = ''
+    __file_input = ''
 
     def __get_loading(self):
-        return self.is_loading
+        return self.__is_loading
 
     def __set_loading(self, loading):
         self.__disable_button() if loading else self.__enable_button()
 
-        self.is_loading = loading
+        self.__is_loading = loading
 
     def __disable_button(self):
         self.root.ids.main_button.disabled = True
@@ -30,7 +30,7 @@ class Interface(App):
             print("Error reading instrument!")
             return
 
-        self.instrument_input = int(instrument)
+        self.__instrument_input = int(instrument)
 
     def __get_bpm(self):
         bpm = self.root.ids.bpm.text
@@ -39,13 +39,13 @@ class Interface(App):
             print("Error reading BPM!")
             return
 
-        self.bpm_input = int(bpm)
+        self.__bpm_input = int(bpm)
 
     def __get_text(self):
-        self.text_input = self.root.ids.text.text
+        self.__text_input = self.root.ids.text.text
 
     def __get_file(self):
-        self.file_input = self.root.ids.file.selection[0] if len(self.root.ids.file.selection) == 1 else ''
+        self.__file_input = self.root.ids.file.selection[0] if len(self.root.ids.file.selection) == 1 else ''
 
     def generate(self):
         self.__get_instrument()
@@ -57,13 +57,13 @@ class Interface(App):
 
         file_text = ''
 
-        if (self.file_input != ''):
-            reader = Reader(self.file_input)
+        if (self.__file_input != ''):
+            reader = Reader(self.__file_input)
             file_text = reader.read_file()
 
-        generate_input = self.text_input + file_text
+        generate_input = self.__text_input + file_text
 
-        composer = Composer(generate_input, self.bpm_input, self.instrument_input)
+        composer = Composer(generate_input, self.__bpm_input, self.__instrument_input)
 
         composer.compose()
 

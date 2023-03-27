@@ -8,35 +8,35 @@ harpa = ["I", "i", "O", "o", "U", "u"]
 notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
 class Composer:
-    def __init__(self, text, bpm, instrument):
-        self.text = text
-        self.bpm = bpm
-        self.instrument = instrument
-        self.volume = 50
-        self.octave = 1
-        self.track = 0
-        self.channel = 0
-        self.time = 0
-        self.duration = 1
-        self.player = Player()
+    def __init__(self, text, __bpm, instrument):
+        self.__text = text
+        self.__bpm = __bpm
+        self.__instrument = instrument
+        self.__volume = 50
+        self.__octave = 1
+        self.__track = 0
+        self.__channel = 0
+        self.__time = 0
+        self.__duration = 1
+        self.__player = Player()
 
-    def get_bpm(self):
-        return self.bpm
+    def get___bpm(self):
+        return self.__bpm
 
-    def set_bpm(self, bpm):
-        self.bpm = bpm
+    def set___bpm(self, __bpm):
+        self.__bpm = __bpm
 
     def get_instrument(self):
-        return self.instrument
+        return self.__instrument
 
     def set_instrument(self, instrument):
-        self.instrument = instrument
+        self.__instrument = instrument
 
     def get_volume(self):
-        return self.volume
+        return self.__volume
 
     def get_octave(self):
-        return self.octave
+        return self.__octave
 
     def __note_exists(self, note):
         return note in notes
@@ -48,14 +48,14 @@ class Composer:
 
         midi_file = MIDIFile(1)
 
-        midi_file.addTempo(self.track, self.time, self.bpm)
+        midi_file.addTempo(self.__track, self.__time, self.__bpm)
 
         # Set the program change event to the selected instrument
-        output.set_instrument(self.instrument)
-        midi_file.addProgramChange(self.track, self.channel, self.time, self.instrument)
+        output.set_instrument(self.__instrument)
+        midi_file.addProgramChange(self.__track, self.__channel, self.__time, self.__instrument)
 
-        for note in self.text:
-            volume_atual = self.volume
+        for note in self.__text:
+            volume_atual = self.__volume
             final_note = 0
 
             # Dobra o volume e continua o loop
@@ -70,31 +70,31 @@ class Composer:
 
             # Troca o instrumento sem tocar nada e continua o loop
             if note == "!" or note in harpa or note == "\n" or note == ";" or note == "," or note.isnumeric():
-                self.instrument = self.player.play_instrument(note, self.instrument, output)
+                self.__instrument = self.__player.play_instrument(note, self.__instrument, output)
 
-                output.set_instrument(self.instrument)
-                midi_file.addProgramChange(self.track, self.channel, self.time, self.instrument)
+                output.set_instrument(self.__instrument)
+                midi_file.addProgramChange(self.__track, self.__channel, self.__time, self.__instrument)
 
-                time.sleep(60 / self.bpm)
-                self.time += 1
+                time.sleep(60 / self.__bpm)
+                self.__time += 1
 
                 continue
 
             # Se a nota atual existir, toca ela
             if self.__note_exists(note):
-                final_note = self.player.play_note(note, self.instrument, self.octave, volume_atual, escala, output)
+                final_note = self.__player.play_note(note, self.__instrument, self.__octave, volume_atual, escala, output)
             # Senão, repete a ultima nota
             else:
-                final_note = self.player.repeat_note(self.instrument, self.octave, volume_atual, escala, output)
+                final_note = self.__player.repeat_note(self.__instrument, self.__octave, volume_atual, escala, output)
             
-            time.sleep(60 / self.bpm)
+            time.sleep(60 / self.__bpm)
             output.note_off(final_note, 0)
 
             if final_note == 10:
                 volume_atual = 0
-            midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, volume_atual)
+            midi_file.addNote(self.__track, self.__channel, final_note, self.__time, self.__duration, volume_atual)
 
-            self.time += 1
+            self.__time += 1
 
         output_file = "output/output.mid"
 
@@ -113,13 +113,13 @@ class Composer:
             pygame.time.wait(100)
 
     def __double_volume(self):
-        self.volume *= 2
+        self.__volume *= 2
 
-        if self.volume > 127:
+        if self.__volume > 127:
             self.__reset_volume()
 
     def __reset_volume(self):
-        self.volume = 50
+        self.__volume = 50
 
     def __increase_octave(self):
-        self.octave += 1
+        self.__octave += 1
