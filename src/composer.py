@@ -36,7 +36,8 @@ class Composer:
 
     def compose(self):
         pygame.midi.init()
-        output = 1
+        output = pygame.midi.Output(0)
+        # output = 1
         escala = 12
         nota_atual = "C"
         repete = ["a", "b", "c", "d", "e", "f", "g"]
@@ -46,13 +47,13 @@ class Composer:
         midi_file.addTempo(self.track, self.time, self.bpm)
 
         for note in self.text:
-            self.player.play_note(note, self.instrument, self.octave, self.volume, escala, midi_file, output)
+            final_note = self.player.play_note(note, self.instrument, self.octave, self.volume, escala, midi_file, output)
+
+            midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, self.volume)
 
         with open(output_file, "wb") as output_file:
             midi_file.writeFile(output_file)
 
-        final_note = (1 * 12) + "C"
-            
         output.note_off(final_note, 0)
 
         del output

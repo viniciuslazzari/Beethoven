@@ -17,10 +17,9 @@ class Player:
         else:
             final_note = (octave * escala) + (self.notes.index(note))
             self.nota_atual = note
-            volume_atual = volume
             
         output.set_instrument(instrument)
-        output.note_on(final_note, volume_atual)
+        output.note_on(final_note, volume)
         time.sleep(self.bpm_base / bpm)
 
-        midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, volume_atual)
+        return final_note
