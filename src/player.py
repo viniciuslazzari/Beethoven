@@ -1,10 +1,10 @@
 import time
-from midiutil import MIDIFile
 
 class Player:
     def __init__(self):
         self.notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
         self.sounds = ["sound1.wav", "sound2.wav", "sound3.wav"]
+        self.nota_atual = 'C'
  
     def note_exists(self, note):
         return note in self.notes
@@ -13,10 +13,10 @@ class Player:
         print(note)
 
         if not self.note_exists(note):
-            final_note = (octave * escala) + (self.notes.index(nota_atual))
-        else :
+            final_note = (octave * escala) + (self.notes.index(self.nota_atual))
+        else:
             final_note = (octave * escala) + (self.notes.index(note))
-            nota_atual = note
+            self.nota_atual = note
             volume_atual = volume
             
         output.set_instrument(instrument)

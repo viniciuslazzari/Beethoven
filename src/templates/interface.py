@@ -7,7 +7,7 @@ possible_instruments = ['Sine', 'Triangle', 'Square']
 class Interface(App):
     is_loading = False
     instrument_input = ''
-    bpm_input = ''
+    bpm_input = 0
     text_input = ''
     file_input = ''
 
@@ -41,7 +41,7 @@ class Interface(App):
             print("Error reading BPM!")
             return
 
-        self.bpm_input = bpm
+        self.bpm_input = int(bpm)
 
     def get_text(self):
         self.text_input = self.root.ids.text.text
