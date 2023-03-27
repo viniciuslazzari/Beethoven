@@ -1,13 +1,19 @@
 import random
+import pygame
+from src.player import Player
 
 class Composer:
-    def __init__(self, bpm, function_map):
+    def __init__(self, text, bpm, instrument):
+        self.text = text
         self.bpm = bpm
-        self.instrument = 1  # default instrument is piano
-        self.volume = 50  # default volume is 50%
-        self.octave = 4  # default octave is 4
+        self.instrument = instrument
+        self.volume = 50
+        self.octave = 4
+        self.track = 0
+        self.channel = 0
+        self.time = 0
+        self.duration = 1
         self.player = Player()
-        self.MAP = function_map
 
     def get_bpm(self):
         return self.bpm
@@ -18,22 +24,42 @@ class Composer:
     def get_instrument(self):
         return self.instrument
 
+    def set_instrument(self, instrument):
+        self.instrument = instrument
+
     def get_volume(self):
         return self.volume
 
     def get_octave(self):
         return self.octave
 
-    def compose(self, notes):
-        for note in notes:
-            if note == 0:
-                self.player.rest()
-            else:
-                func = self.get_command_function(note)
-                func()
+    def compose(self):
+        pygame.midi.init()
+        output = pygame.midi.Output(0)
+        escala = 12
+        nota_atual = "C"
+        repete = ["a", "b", "c", "d", "e", "f", "g"]
 
-    def get_command_function(self, command):
-        return self.MAP[command]
+        midi_file = MIDIFile(1)
+
+        midi_file.addTempo(self.track, self.time, self.bpm)
+
+        for note in text:
+            self.player.play_note(note, self.octave, self.volume, escala, midi_file, output)
+
+        with open(output_file, "wb") as output_file:
+            midi_file.writeFile(output_file)
+            
+        output.note_off(final_note, 0)
+
+        del output
+        pygame.midi.quit()
+
+        pygame.init()
+        pygame.mixer.music.load("output/output.mid")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pygame.time.wait(100)
 
     def generate_random_bpm(self):
         self.bpm = random.randint(60, 180)

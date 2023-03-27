@@ -1,23 +1,23 @@
-import pygame.midi
 from kivy.app import App
-from ..player import Player
+from ..composer import Composer
+from ..reader import Reader
 
 possible_instruments = ['Sine', 'Triangle', 'Square']
 
 class Interface(App):
-    __is_loading = False
-    __instrument_input = ''
-    __bpm_input = ''
-    __text_input = ''
-    __file_input = ''
+    is_loading = False
+    instrument_input = ''
+    bpm_input = ''
+    text_input = ''
+    file_input = ''
 
     def get_loading(self):
-        return __is_loading
+        return is_loading
 
     def set_loading(self, loading):
         self.disable_button() if loading else self.enable_button()
 
-        self.__is_loading = loading
+        self.is_loading = loading
 
     def disable_button(self):
         self.root.ids.main_button.disabled = True
@@ -32,7 +32,7 @@ class Interface(App):
             print("Error reading instrument!")
             return
 
-        self.__instrument_input = instrument
+        self.instrument_input = instrument
 
     def get_bpm(self):
         bpm = self.root.ids.bpm.text
@@ -41,14 +41,13 @@ class Interface(App):
             print("Error reading BPM!")
             return
 
-        self.__bpm_input = bpm
+        self.bpm_input = bpm
 
     def get_text(self):
-        self.__text_input = self.root.ids.text.text
+        self.text_input = self.root.ids.text.text
 
     def get_file(self):
-        self.__file_input = self.root.ids.file.selection[0] if len(self.root.ids.file.selection) == 1 else ''
- 
+        self.file_input = self.root.ids.file.selection[0] if len(self.root.ids.file.selection) == 1 else ''
 
     def generate(self):
         self.get_instrument()
@@ -58,20 +57,17 @@ class Interface(App):
 
         self.set_loading(True)
 
-        print(self.__instrument_input, self.__bpm_input, self.__text_input, self.__file_input)
-        
+        print(self.instrument_input, self.bpm_input, self.text_input, self.file_input)
 
-        teste = Player()
+        file_text = ''
 
-        bpm = int(self.__bpm_input)
+        if (self.file_input != ''):
+            reader = Reader(self.file_input)
+            file_text = reader.read_file()
 
-        volume = 127
+        generate_input = self.text_input + file_text
 
-        octave = 4
+        composer = Composer(generate_input, self.bpm_input, self.instrument_input)
 
-        instrument = 0
-
-
-        teste.play_note(self.__text_input, instrument, octave, volume, bpm, "output/output.mid")
-        teste.play_note(self.__text_input, instrument, octave, volume, bpm)
+        composer.compose()
 
