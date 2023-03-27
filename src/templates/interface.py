@@ -2,17 +2,15 @@ from kivy.app import App
 from ..composer import Composer
 from ..reader import Reader
 
-possible_instruments = ['Sine', 'Triangle', 'Square']
-
 class Interface(App):
     is_loading = False
-    instrument_input = ''
+    instrument_input = 0
     bpm_input = 0
     text_input = ''
     file_input = ''
 
     def get_loading(self):
-        return is_loading
+        return self.is_loading
 
     def set_loading(self, loading):
         self.disable_button() if loading else self.enable_button()
@@ -28,11 +26,11 @@ class Interface(App):
     def get_instrument(self):
         instrument = self.root.ids.instrument.text
 
-        if instrument not in possible_instruments:
+        if not instrument.isnumeric():
             print("Error reading instrument!")
             return
 
-        self.instrument_input = instrument
+        self.instrument_input = int(instrument)
 
     def get_bpm(self):
         bpm = self.root.ids.bpm.text
@@ -67,7 +65,7 @@ class Interface(App):
 
         generate_input = self.text_input + file_text
 
-        composer = Composer(generate_input, self.bpm_input, 0)
+        composer = Composer(generate_input, self.bpm_input, self.instrument_input)
 
         composer.compose()
 
