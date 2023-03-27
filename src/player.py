@@ -3,13 +3,13 @@ import time
 class Player:
     def __init__(self):
         self.notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-        self.sounds = ["sound1.wav", "sound2.wav", "sound3.wav"]
         self.nota_atual = 'C'
+        self.bpm_base = 60
  
     def note_exists(self, note):
         return note in self.notes
 
-    def play_note(self, note, octave, volume, escala, midi_file, output):
+    def play_note(self, note, instrument, octave, volume, escala, midi_file, output):
         print(note)
 
         if not self.note_exists(note):
@@ -21,6 +21,6 @@ class Player:
             
         output.set_instrument(instrument)
         output.note_on(final_note, volume_atual)
-        time.sleep(bpm_base/bpm)
+        time.sleep(self.bpm_base / bpm)
 
         midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, volume_atual)

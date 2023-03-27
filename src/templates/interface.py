@@ -67,7 +67,7 @@ class Interface(App):
 
         generate_input = self.text_input + file_text
 
-        composer = Composer(generate_input, self.bpm_input, self.instrument_input)
+        composer = Composer(generate_input, self.bpm_input, 0)
 
         composer.compose()
 

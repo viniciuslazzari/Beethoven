@@ -46,10 +46,12 @@ class Composer:
         midi_file.addTempo(self.track, self.time, self.bpm)
 
         for note in self.text:
-            self.player.play_note(note, self.octave, self.volume, escala, midi_file, output)
+            self.player.play_note(note, self.instrument, self.octave, self.volume, escala, midi_file, output)
 
         with open(output_file, "wb") as output_file:
             midi_file.writeFile(output_file)
+
+        final_note = (1 * 12) + "C"
             
         output.note_off(final_note, 0)
 
