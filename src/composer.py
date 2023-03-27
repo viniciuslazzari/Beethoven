@@ -38,7 +38,7 @@ class Composer:
     def get_octave(self):
         return self.octave
 
-    def note_exists(self, note):
+    def __note_exists(self, note):
         return note in notes
 
     def compose(self):
@@ -54,19 +54,18 @@ class Composer:
         output.set_instrument(self.instrument)
         midi_file.addProgramChange(self.track, self.channel, self.time, self.instrument)
 
-
         for note in self.text:
             volume_atual = self.volume
             final_note = 0
 
             # Dobra o volume e continua o loop
             if note == " ":
-                self.double_volume()
+                self.__double_volume()
                 continue
             
             # Aumenta a oitava e continua o loop
             if note == "?" or note == ".":
-                self.increase_octave()
+                self.__increase_octave()
                 continue
 
             # Troca o instrumento sem tocar nada e continua o loop
@@ -82,7 +81,7 @@ class Composer:
                 continue
 
             # Se a nota atual existir, toca ela
-            if self.note_exists(note):
+            if self.__note_exists(note):
                 final_note = self.player.play_note(note, self.instrument, self.octave, volume_atual, escala, output)
             # Senão, repete a ultima nota
             else:
@@ -113,14 +112,14 @@ class Composer:
         while pygame.mixer.music.get_busy():
             pygame.time.wait(100)
 
-    def double_volume(self):
+    def __double_volume(self):
         self.volume *= 2
 
         if self.volume > 127:
-            self.reset_volume()
+            self.__reset_volume()
 
-    def reset_volume(self):
+    def __reset_volume(self):
         self.volume = 50
 
-    def increase_octave(self):
+    def __increase_octave(self):
         self.octave += 1

@@ -2,7 +2,7 @@ class Reader:
     def __init__(self, file):
         self.file = file
 
-    def file_is_txt(self):
+    def __file_is_txt(self):
         return self.file.endswith('.txt')
 
     def read_file(self):

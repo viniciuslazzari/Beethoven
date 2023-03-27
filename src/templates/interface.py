@@ -9,21 +9,21 @@ class Interface(App):
     text_input = ''
     file_input = ''
 
-    def get_loading(self):
+    def __get_loading(self):
         return self.is_loading
 
-    def set_loading(self, loading):
-        self.disable_button() if loading else self.enable_button()
+    def __set_loading(self, loading):
+        self.__disable_button() if loading else self.__enable_button()
 
         self.is_loading = loading
 
-    def disable_button(self):
+    def __disable_button(self):
         self.root.ids.main_button.disabled = True
 
-    def enable_button(self):
+    def __enable_button(self):
         self.root.ids.main_button.disabled = False
 
-    def get_instrument(self):
+    def __get_instrument(self):
         instrument = self.root.ids.instrument.text
 
         if not instrument.isnumeric():
@@ -32,7 +32,7 @@ class Interface(App):
 
         self.instrument_input = int(instrument)
 
-    def get_bpm(self):
+    def __get_bpm(self):
         bpm = self.root.ids.bpm.text
 
         if not bpm.isnumeric():
@@ -41,19 +41,19 @@ class Interface(App):
 
         self.bpm_input = int(bpm)
 
-    def get_text(self):
+    def __get_text(self):
         self.text_input = self.root.ids.text.text
 
-    def get_file(self):
+    def __get_file(self):
         self.file_input = self.root.ids.file.selection[0] if len(self.root.ids.file.selection) == 1 else ''
 
     def generate(self):
-        self.get_instrument()
-        self.get_bpm()
-        self.get_text()
-        self.get_file()
+        self.__get_instrument()
+        self.__get_bpm()
+        self.__get_text()
+        self.__get_file()
 
-        self.set_loading(True)
+        self.__set_loading(True)
 
         file_text = ''
 
@@ -67,4 +67,4 @@ class Interface(App):
 
         composer.compose()
 
-        self.set_loading(False)
+        self.__set_loading(False)

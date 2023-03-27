@@ -5,7 +5,7 @@ class Player:
     def __init__(self):
         self.nota_atual = 'A#'
 
-    def get_instrument(self, note, instrument):
+    def __get_instrument(self, note, instrument):
         if note == "!":
             return 113
         elif note in harpas:
@@ -23,7 +23,7 @@ class Player:
             return new_instrument
 
     def play_instrument(self, note, instrument, output):
-        new_instrument = self.get_instrument(note, instrument)
+        new_instrument = self.__get_instrument(note, instrument)
 
         self.nota_atual = "A#"
 
