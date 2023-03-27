@@ -2,6 +2,7 @@ import random
 import pygame
 from midiutil import MIDIFile
 from src.player import Player
+import time
 
 harpa = ["I", "i", "O", "o", "U", "u"]
 repete = ["a", "b", "c", "d", "e", "f", "g"]
@@ -14,7 +15,7 @@ class Composer:
         self.bpm = bpm
         self.instrument = instrument
         self.volume = 50
-        self.octave = 4
+        self.octave = 1
         self.track = 0
         self.channel = 0
         self.time = 0
@@ -45,14 +46,16 @@ class Composer:
     def compose(self):
         pygame.midi.init()
         output = pygame.midi.Output(0)
-        # output = 1
         escala = 12
 
         midi_file = MIDIFile(1)
 
         midi_file.addTempo(self.track, self.time, self.bpm)
 
-        nota_atual = ''
+        # Set the program change event to the selected instrument
+        output.set_instrument(self.instrument)
+        midi_file.addProgramChange(self.track, self.channel, self.time, self.instrument)
+
 
         for note in self.text:
             volume_atual = self.volume
@@ -69,8 +72,11 @@ class Composer:
                 continue
 
             # Troca o instrumento sem tocar nada e continua o loop
-            if note == "!" or note in harpa or note == "\n" or note == ";" or note == ",":
-                self.player.play_instrument(note, self.instrument, output)
+            if note == "!" or note in harpa or note == "\n" or note == ";" or note == "," or note.isnumeric():
+                self.instrument = self.player.play_instrument(note, self.instrument, output)
+
+                output.set_instrument(self.instrument)
+                midi_file.addProgramChange(self.track, self.channel, self.time, self.instrument)
 
                 time.sleep(60 / self.bpm)
                 self.time += 1
@@ -79,12 +85,16 @@ class Composer:
 
             # Se a nota atual existir, toca ela
             if self.note_exists(note):
-                final_note = self.player.play_note(note, self.bpm, self.instrument, self.octave, volume_atual, escala, output)
+                final_note = self.player.play_note(note, self.instrument, self.octave, volume_atual, escala, output)
             # Senão, repete a ultima nota
             else:
                 final_note = self.player.repeat_note(self.instrument, self.octave, volume_atual, escala, output)
             
             time.sleep(60 / self.bpm)
+            output.note_off(final_note, 0)
+
+            if final_note == 10:
+                volume_atual = 0
             midi_file.addNote(self.track, self.channel, final_note, self.time, self.duration, volume_atual)
 
             self.time += 1
@@ -107,6 +117,8 @@ class Composer:
 
     def double_volume(self):
         self.volume *= 2
+        if self.volume > 127:
+            self.volume = 50
 
     def reset_volume(self):
         self.volume = 50

@@ -1,24 +1,22 @@
-import time
-
 class Player:
     def __init__(self):
         self.notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
         self.harpa = ["I", "i", "O", "o", "U", "u"]
         self.nota_atual = 'A#'
 
-    def get_instrument(self, char, instrument):
-        if char == "!":
+    def get_instrument(self, note, instrument):
+        if note == "!":
             return 113
-        elif char in self.harpa:
+        elif note in self.harpa:
             return 6
-        elif char == "\n":
+        elif note == "\n":
             return 14
-        elif char == ";":
+        elif note == ";":
             return 75
-        elif char == ",":
+        elif note == ",":
             return 19
-        elif isnumeric(char):
-            new_instrument = instrument + int(char)
+        elif note.isnumeric():
+            new_instrument = instrument + int (note)
             new_instrument = new_instrument if new_instrument < 127 else 0
 
             return new_instrument
@@ -28,27 +26,24 @@ class Player:
 
         self.nota_atual = "A#"
 
-        output.set_instrument(new_instrument)
+        return new_instrument
 
-        return final_note  
 
     def repeat_note(self, instrument, octave, volume, escala, output):
+        final_note = 10
         if self.nota_atual != "A#":
-            final_note = (octave * escala) + (self.notes.index(nota_atual))
+            final_note = (octave * escala) + (self.notes.index(self.nota_atual))
             self.nota_atual = "A#"
 
-        output.set_instrument(instrument)
-        output.note_on(final_note, volume)
+            output.set_instrument(instrument)
+            output.note_on(final_note, volume)
 
         return final_note
 
-    def play_note(self, note, bpm, instrument, octave, volume, escala, output):
-        if not self.note_exists(note):
-            final_note = (octave * escala) + (self.notes.index(self.nota_atual))
-        else:
-            final_note = (octave * escala) + (self.notes.index(note))
-            self.nota_atual = note
-            
+    def play_note(self, note, instrument, octave, volume, escala, output):
+        final_note = (octave * escala) + (self.notes.index(note))
+        self.nota_atual = note
+        
         output.set_instrument(instrument)
         output.note_on(final_note, volume)
 
